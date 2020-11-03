@@ -1,0 +1,18 @@
+# url scraper
+url: 'https://shopping.yahoo.co.jp/'
+id: 'ss_yschsp'
+button: 'ss_srch_btn'
+url_list: '../data/url_list/yahoo_product_url.csv'
+page: '&page='
+sleep: 20
+
+# product scraper
+tag: 'h2'
+class_: 'a-size-mini'
+css: 'h2>a'
+save_path: '../data/product/'
+product: 'amazon_product_list.csv'
+encoding: 'utf-8-sig'
+url_head: 'https://www.amazon.co.jp'
+
+css_review: '.review-data'

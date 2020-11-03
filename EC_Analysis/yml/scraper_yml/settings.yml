@@ -1,0 +1,5 @@
+paging: ['../../yml/scraper_yml/rakuten.yml', '../../yml/scraper_yml/amazon.yml']
+scroll: ['../yml/amazon.yml', '../yml/rakuten.yml']
+browser_head: {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.03497.100'}
+save_path: '../../data/scraped_text/'
+driver: '../../driver/chromedriver'

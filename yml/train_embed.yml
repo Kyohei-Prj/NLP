@@ -1,0 +1,3 @@
+path: '../data/wikipedia/processed_text/AA/*'
+init: True
+pretrained_model: '../data/word_vector/training_model/KT_model'

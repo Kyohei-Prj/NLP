@@ -1,0 +1,80 @@
+import pandas as pd
+import sys
+from janome.tokenizer import Tokenizer
+from janome.analyzer import Analyzer
+from janome.tokenfilter import POSStopFilter
+
+
+
+
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+import numpy as np
+
+
+
+
+def tokenize(df):
+
+    tokenizer = Tokenizer()
+    token_filters = [POSStopFilter(['記号', '助詞', '助動詞'])]
+    analysis = Analyzer(tokenizer=tokenizer, token_filters=token_filters)
+
+    corpus = []
+    for col in df.columns.to_list():
+        category = []
+        df_tmp = df[col].dropna()
+        sentence_concat = concat_str(df_tmp.values)
+        token = analysis.analyze(sentence_concat)
+        word_list = [word.surface for word in token]
+        word_concat = concat_str(word_list)
+        corpus.append(word_concat)
+
+    return corpus
+
+def concat_str(string_list):
+
+    string_concat = ''
+    for string in string_list:
+        string_concat = string_concat + string + ' '
+
+    return string_concat
+
+def calc_tfidf(corpus):
+
+    vec = TfidfVectorizer()
+    tfidf = vec.fit_transform(corpus).toarray()
+    features = vec.get_feature_names()
+
+    return features, tfidf
+
+def print_top_n(features, tfidf, n):
+
+    result_list = []
+    for values in tfidf:
+        result_dict = dict(zip(features, values))
+        result_dict_sort = sorted(result_dict.items(), key=lambda x:x[1], reverse=True)
+        result_list.append(result_dict_sort)
+        
+    for result_dict in result_list:
+        print('corpus')
+        for i, key_word in enumerate(result_dict):
+            print(key_word)
+            if i > n:
+                break
+        print()
+
+
+def main():
+
+    df = pd.read_csv(sys.argv[1])
+    df = df[1::2]
+    df.reset_index(inplace=True, drop=True)
+
+    corpus = tokenize(df)
+    features, tfidf = calc_tfidf(corpus)
+    print_top_n(features, tfidf, 10)
+    
+    
+if __name__ == '__main__':
+    main()

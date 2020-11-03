@@ -1,0 +1,11 @@
+name: 'rakuten'
+main_url: 'https://search.rakuten.co.jp/search/mall/'
+keywords: ['アンテナケーブル', 'ウォータークーラー']
+button_id: 'ri-cmn-hdr-sitem'
+button_press: 'ri-cmn-hdr-search-btn'
+sleep: 15
+product_css: 'h2>a'
+review_css: 'no'
+flip_size: 2
+flip_method: '?p='
+url_head: ''

@@ -1,0 +1,66 @@
+from gensim.models.fasttext import FastText as FT
+from gensim.utils import tokenize
+from gensim import utils
+import glob
+import sys
+
+
+def iter_doc(path):
+
+    with utils.open(path, 'r', encoding='utf-8') as fp:
+        for line in fp:
+            yield list(tokenize(line))
+
+
+def init_model(path):
+
+    model = FT(size=150, window=5, min_count=3, workers=4)
+    model.build_vocab(sentences=iter_doc(path))
+    model.train(corpus_file=path,
+                epochs=model.epochs,
+                total_examples=model.corpus_count,
+                total_words=model.corpus_total_words,
+                model='skipgram')
+
+    show_vocab_size(model)
+
+    return model
+
+
+def update_model(model, path):
+
+    print(path)
+
+    model.build_vocab(sentences=iter_doc(path), update=True)
+    model.train(corpus_file=path,
+                epochs=model.epochs,
+                total_examples=model.corpus_count,
+                total_words=model.corpus_total_words,
+                model='skipgram')
+
+    show_vocab_size(model)
+
+    return model
+
+
+def show_vocab_size(model):
+    print(len(model.wv.vocab))
+
+
+def main():
+
+    file_list = [fname for fname in glob.glob(sys.argv[1])]
+    print(len(file_list))
+
+    model = init_model(file_list[0])
+
+    file_list.pop(0)
+    for i, fname in enumerate(file_list):
+        print('{}/{}'.format(i, len(file_list)))
+        model = update_model(model, fname)
+
+    model.save('sample_model')
+
+
+if __name__ == '__main__':
+    main()

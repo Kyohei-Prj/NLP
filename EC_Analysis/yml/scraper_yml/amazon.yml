@@ -1,0 +1,11 @@
+name: 'amazon'
+main_url: 'https://www.amazon.co.jp'
+keywords: ['アンテナケーブル', 'ウォータークーラー']
+button_id: 'twotabsearchtextbox'
+button_press: 'nav-input'
+sleep: 20
+product_css: 'h2>a'
+review_css: '.review-data'
+flip_size: 2
+flip_method: '&page='
+url_head: 'https://www.amazon.co.jp'

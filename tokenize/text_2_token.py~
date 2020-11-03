@@ -1,0 +1,15 @@
+import neologdn
+import MeCab
+import glob
+
+
+def main():
+
+    file_list = [fname for fname in glob.glob('../data/wikipedia/text/AA/wiki_*')]
+    print(file_list)
+
+
+
+
+if __name__ == '__main__':
+    main()
